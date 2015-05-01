@@ -134,6 +134,51 @@ public class MainClass {
 		
 	}
 	
+	/*
+	Get list of genus names from all files in the folder and write it to a file called "genus_names.txt" 
+	*/
+	private static void getGenusNames() {
+		// TODO Auto-generated method stub
+		HashMap<String, Integer> genus_names= new HashMap<String, Integer>();
+		File input = new File("ETC-FNA-v2_output3_1");
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("genus_names.txt", "UTF-8");
+			SAXBuilder jdomBuilder = new SAXBuilder();
+	        Document jdomDocument;
+			try {
+				for(File f : input.listFiles()) {
+					try {
+						jdomDocument = jdomBuilder.build(f);
+						XPathFactory xFactory = XPathFactory.instance();
+						XPathExpression<Element> expression = xFactory.compile("//taxon_identification[@status='ACCEPTED']/taxon_name[@rank='genus']", Filters.element());
+						List<Element> elements = expression.evaluate(jdomDocument);
+						for(Element elem: elements){
+							genus_names.put(elem.getText(), 1);
+						}
+					} catch (JDOMException e) {
+						System.out.println(f.getName()+"has jdom exception: "+e.getMessage());
+						continue;
+					}
+				}
+				for(String keys: genus_names.keySet()){
+					writer.println(keys);
+				}
+			}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			writer.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+	
 	static String readFile(String path, Charset encoding) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded, encoding);
