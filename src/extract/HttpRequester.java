@@ -71,9 +71,9 @@ public class HttpRequester {
 		try {
 			PrintWriter writer = new PrintWriter(new File("genus-family.txt"));
 			reader = new FileReader(new File("genus_names.txt"));
-			BufferedReader bf = new BufferedReader(reader);
 			String genus;
-			while((genus = bf.readLine()) != null){
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			while((genus = bufferedReader.readLine()) != null){
 				genus = genus.trim();
 				genus = genus.toLowerCase();
 				String targetUrl = "http://efloras.org/browse.aspx?floral_id=1&name_str="+genus+"&btnSearch=Search";

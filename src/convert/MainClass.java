@@ -1,14 +1,12 @@
-import java.io.BufferedReader;
+package convert;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,15 +16,12 @@ import java.util.List;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-
-import convert.Converter;
 
 
 public class MainClass {
@@ -57,8 +52,6 @@ public class MainClass {
 					// renameTags(jdomDocument); - check the renameTags function below
 					// renameAttributes(jdomDocument); - check the renameAttributes function below 
 					jdomDocument = Converter.addMetaTag(jdomDocument);
-					jdomDocument = Converter.correctTaxonNames(jdomDocument, authorityList);
-					jdomDocument = Converter.correctDescriptions(jdomDocument);
 					XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
 					xout.output(jdomDocument, new FileOutputStream(new File(output, f.getName())));
 				} catch (JDOMException e) {
